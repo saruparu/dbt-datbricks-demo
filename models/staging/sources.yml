@@ -1,0 +1,55 @@
+version: 2
+
+sources:
+  - name: iot_raw
+    description: "Raw IoT data ingested from factory sensors — Bronze layer source"
+    schema: "{{ target.schema }}_raw"
+    loaded_at_field: ingested_at
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+    tables:
+      - name: raw_sensor_readings
+        description: "Raw sensor telemetry from factory equipment"
+        columns:
+          - name: reading_id
+            description: "Unique identifier for each sensor reading"
+          - name: device_id
+            description: "Foreign key to the device that generated the reading"
+          - name: metric_name
+            description: "Type of metric: temperature, vibration, humidity, pressure"
+          - name: metric_value
+            description: "Numeric value of the sensor reading (may be null for missing data)"
+          - name: reading_ts
+            description: "Timestamp when the sensor reading was captured"
+          - name: ingested_at
+            description: "Timestamp when the reading was ingested into the data platform"
+
+      - name: raw_devices
+        description: "Device master data and metadata"
+        loaded_at_field: null  # No timestamp field in device master
+        freshness: null
+        columns:
+          - name: device_id
+            description: "Unique identifier for each IoT device"
+          - name: device_name
+            description: "Human-readable device name"
+          - name: device_type
+            description: "Category of equipment (compressor, motor, pump, etc.)"
+          - name: location
+            description: "Factory plant location"
+          - name: zone
+            description: "Zone within the factory plant"
+
+      - name: raw_alerts
+        description: "Alert events triggered by threshold breaches or data quality issues"
+        loaded_at_field: alert_ts
+        columns:
+          - name: alert_id
+            description: "Unique identifier for each alert"
+          - name: device_id
+            description: "Device that triggered the alert"
+          - name: alert_type
+            description: "Category: threshold_breach, data_quality, equipment_fault, maintenance_due"
+          - name: severity
+            description: "Alert severity: info, warning, critical"

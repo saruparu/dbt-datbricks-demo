@@ -1,0 +1,25 @@
+alert_id,device_id,alert_type,severity,metric_name,threshold_value,actual_value,alert_ts,resolved_at,resolution_notes
+ALT001,DEV004,threshold_breach,critical,temperature,85.0,88.3,2025-01-15 08:01:00,,
+ALT002,DEV004,threshold_breach,warning,vibration,9.0,7.6,2025-01-15 08:01:00,2025-01-15 08:10:00,Vibration within acceptable range after review
+ALT003,DEV004,threshold_breach,critical,temperature,85.0,91.2,2025-01-15 08:16:00,,
+ALT004,DEV004,threshold_breach,critical,vibration,9.0,8.1,2025-01-15 08:16:00,,
+ALT005,DEV004,threshold_breach,critical,temperature,85.0,93.7,2025-01-15 08:31:00,,
+ALT006,DEV004,threshold_breach,critical,vibration,9.0,9.4,2025-01-15 08:31:00,,
+ALT007,DEV009,threshold_breach,warning,temperature,85.0,82.6,2025-01-15 08:31:00,2025-01-15 08:45:00,Temperature fluctuation - monitoring
+ALT008,DEV004,threshold_breach,critical,temperature,85.0,95.1,2025-01-15 09:01:00,,
+ALT009,DEV004,threshold_breach,critical,vibration,9.0,9.8,2025-01-15 09:01:00,,
+ALT010,DEV009,threshold_breach,critical,temperature,85.0,85.3,2025-01-15 09:16:00,,
+ALT011,DEV009,threshold_breach,warning,vibration,9.0,7.1,2025-01-15 09:16:00,2025-01-15 09:30:00,Under threshold after correction
+ALT012,DEV004,threshold_breach,critical,temperature,85.0,96.8,2025-01-15 09:31:00,,
+ALT013,DEV004,threshold_breach,critical,vibration,9.0,10.2,2025-01-15 09:31:00,,
+ALT014,DEV009,threshold_breach,critical,temperature,85.0,86.7,2025-01-15 09:46:00,,
+ALT015,DEV009,threshold_breach,warning,vibration,9.0,7.5,2025-01-15 09:46:00,2025-01-15 10:00:00,Reduced load on boiler
+ALT016,DEV004,threshold_breach,critical,temperature,85.0,98.2,2025-01-15 10:01:00,,
+ALT017,DEV004,threshold_breach,critical,vibration,9.0,10.8,2025-01-15 10:01:00,,
+ALT018,DEV004,data_quality,warning,humidity,,,2025-01-15 10:01:00,,Missing humidity reading
+ALT019,DEV001,data_quality,info,temperature,,,2025-01-15 09:46:00,,Missing temperature reading
+ALT020,DEV009,threshold_breach,critical,temperature,85.0,87.9,2025-01-15 10:01:00,,
+ALT021,DEV004,equipment_fault,critical,temperature,85.0,98.2,2025-01-15 10:05:00,,Escalated to maintenance team - furnace overheating
+ALT022,DEV003,threshold_breach,warning,vibration,9.0,4.9,2025-01-15 10:01:00,2025-01-15 10:15:00,Normal range for pump operation
+ALT023,DEV007,threshold_breach,info,vibration,9.0,4.6,2025-01-15 10:01:00,2025-01-15 10:10:00,Standard welding vibration
+ALT024,DEV004,maintenance_due,warning,,,,,,Scheduled maintenance overdue by 15 days

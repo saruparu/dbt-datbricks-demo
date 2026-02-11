@@ -1,0 +1,83 @@
+version: 2
+
+models:
+  - name: stg_sensor_readings
+    description: >
+      Bronze layer staging model for IoT sensor readings.
+      Mirrors raw data with standardized column names, types, and dbt metadata.
+    columns:
+      - name: reading_id
+        description: "Unique identifier for each sensor reading"
+        tests:
+          - not_null
+          - unique
+      - name: device_id
+        description: "Device that generated the reading"
+        tests:
+          - not_null
+      - name: metric_name
+        description: "Type of sensor metric"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['temperature', 'vibration', 'humidity', 'pressure']
+      - name: metric_value
+        description: "Sensor reading value (nullable — may have missing data)"
+      - name: reading_ts
+        description: "When the reading was captured by the sensor"
+        tests:
+          - not_null
+
+  - name: stg_devices
+    description: >
+      Bronze layer staging model for device master data.
+      Contains device metadata with standardized column names.
+    columns:
+      - name: device_id
+        description: "Primary key — unique device identifier"
+        tests:
+          - not_null
+          - unique
+      - name: device_name
+        description: "Human-readable device name"
+        tests:
+          - not_null
+      - name: device_type
+        description: "Equipment category"
+        tests:
+          - not_null
+      - name: plant_location
+        description: "Factory plant location"
+        tests:
+          - not_null
+      - name: is_active
+        description: "Whether the device is currently active"
+        tests:
+          - not_null
+
+  - name: stg_alerts
+    description: >
+      Bronze layer staging model for alert events.
+      Enriched with resolution status flag.
+    columns:
+      - name: alert_id
+        description: "Primary key — unique alert identifier"
+        tests:
+          - not_null
+          - unique
+      - name: device_id
+        description: "Device that triggered the alert"
+        tests:
+          - not_null
+      - name: alert_type
+        description: "Category of alert"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['threshold_breach', 'data_quality', 'equipment_fault', 'maintenance_due']
+      - name: severity
+        description: "Alert severity level"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['info', 'warning', 'critical']

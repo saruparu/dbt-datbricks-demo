@@ -1,0 +1,11 @@
+device_id,device_name,device_type,location,zone,install_date,manufacturer,firmware_version,is_active
+DEV001,Compressor-A1,compressor,Plant-Detroit,Zone-A,2023-03-15,SensorCorp,v2.1.4,true
+DEV002,Motor-B2,motor,Plant-Detroit,Zone-B,2023-06-22,IndustrialIO,v3.0.1,true
+DEV003,Pump-C3,pump,Plant-Detroit,Zone-C,2022-11-10,SensorCorp,v2.0.8,true
+DEV004,Furnace-A4,furnace,Plant-Chicago,Zone-A,2021-09-05,HeatTech,v1.5.2,true
+DEV005,Assembly-B5,assembly_robot,Plant-Chicago,Zone-B,2024-01-18,RobotWorks,v4.2.0,true
+DEV006,Conveyor-C6,conveyor,Plant-Chicago,Zone-C,2023-08-30,IndustrialIO,v3.0.1,true
+DEV007,Welder-A7,welder,Plant-Austin,Zone-A,2022-05-12,WeldPro,v2.3.1,true
+DEV008,CNC-B8,cnc_machine,Plant-Austin,Zone-B,2023-12-01,PrecisionMfg,v5.1.0,true
+DEV009,Boiler-C9,boiler,Plant-Austin,Zone-C,2021-04-20,HeatTech,v1.4.9,true
+DEV010,Packaging-A10,packaging,Plant-Detroit,Zone-A,2024-02-28,PackSystems,v1.0.3,true

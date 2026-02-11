@@ -1,0 +1,42 @@
+version: 2
+
+seeds:
+  - name: raw_sensor_readings
+    description: "Raw IoT sensor readings from factory equipment. Contains timestamped metric values from various sensors."
+    config:
+      column_types:
+        reading_id: varchar(10)
+        device_id: varchar(10)
+        metric_name: varchar(20)
+        metric_value: float
+        reading_ts: timestamp
+        ingested_at: timestamp
+
+  - name: raw_devices
+    description: "Device master data for factory IoT equipment. Contains device metadata including location, type, and firmware info."
+    config:
+      column_types:
+        device_id: varchar(10)
+        device_name: varchar(50)
+        device_type: varchar(30)
+        location: varchar(30)
+        zone: varchar(10)
+        install_date: date
+        manufacturer: varchar(30)
+        firmware_version: varchar(10)
+        is_active: boolean
+
+  - name: raw_alerts
+    description: "Alert events generated when sensor readings breach thresholds or data quality issues are detected."
+    config:
+      column_types:
+        alert_id: varchar(10)
+        device_id: varchar(10)
+        alert_type: varchar(30)
+        severity: varchar(10)
+        metric_name: varchar(20)
+        threshold_value: float
+        actual_value: float
+        alert_ts: timestamp
+        resolved_at: timestamp
+        resolution_notes: varchar(200)

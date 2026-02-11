@@ -1,0 +1,45 @@
+name: 'iot_databricks'
+version: '1.0.0'
+config-version: 2
+
+profile: 'iot_databricks'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+vars:
+  # Anomaly detection thresholds for IoT metrics
+  temperature_upper: 85.0
+  temperature_lower: 10.0
+  vibration_upper: 9.0
+  humidity_upper: 90.0
+  humidity_lower: 15.0
+  pressure_upper: 1050.0
+  pressure_lower: 950.0
+
+models:
+  iot_databricks:
+    staging:
+      +materialized: view
+      +schema: bronze
+      +tags: ['bronze', 'staging']
+    intermediate:
+      +materialized: incremental
+      +schema: silver
+      +tags: ['silver', 'intermediate']
+    marts:
+      +materialized: table
+      +schema: gold
+      +tags: ['gold', 'marts']
+
+seeds:
+  iot_databricks:
+    +schema: raw

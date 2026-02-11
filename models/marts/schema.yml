@@ -1,0 +1,95 @@
+version: 2
+
+models:
+  - name: fct_hourly_metrics
+    description: >
+      Gold layer: Pre-aggregated hourly metrics per device per sensor type.
+      Optimized for time-series dashboards and trend analysis.
+    columns:
+      - name: device_health_key
+        description: "Primary key — surrogate key for device + metric + hour"
+        tests:
+          - not_null
+          - unique
+      - name: device_id
+        description: "Device identifier"
+        tests:
+          - not_null
+      - name: metric_name
+        description: "Sensor metric type"
+        tests:
+          - not_null
+      - name: health_status
+        description: "Derived health classification: healthy, warning, degraded, critical"
+        tests:
+          - accepted_values:
+              values: ['healthy', 'warning', 'degraded', 'critical']
+
+  - name: fct_device_summary
+    description: >
+      Gold layer: Daily device health scorecard combining sensor statistics,
+      alert counts, and a computed health score (0-100).
+      Powers operational dashboards and fleet management views.
+    columns:
+      - name: device_summary_key
+        description: "Primary key — surrogate key for device + date"
+        tests:
+          - not_null
+          - unique
+      - name: health_score
+        description: "Computed health score 0-100 (higher = healthier)"
+        tests:
+          - not_null
+      - name: health_category
+        description: "Overall device health classification"
+        tests:
+          - accepted_values:
+              values: ['healthy', 'at_risk', 'degraded', 'critical']
+      - name: data_completeness_pct
+        description: "Percentage of non-null readings"
+
+  - name: fct_anomaly_events
+    description: >
+      Gold layer: Flattened anomaly events with full device context and
+      threshold comparisons. Designed for alert dashboards and root cause analysis.
+    columns:
+      - name: anomaly_event_key
+        description: "Primary key — surrogate key for anomaly event"
+        tests:
+          - not_null
+          - unique
+      - name: device_id
+        description: "Device that generated the anomaly"
+        tests:
+          - not_null
+      - name: actual_value
+        description: "The anomalous sensor reading value"
+        tests:
+          - not_null
+      - name: breach_direction
+        description: "Whether the value breached above upper or below lower threshold"
+        tests:
+          - accepted_values:
+              values: ['above_upper', 'below_lower']
+
+  - name: dim_devices
+    description: >
+      Gold layer: Device dimension with lifetime statistics and SCD metadata.
+      Provides the canonical device reference for all analytics.
+    columns:
+      - name: device_key
+        description: "Surrogate key for the device dimension"
+        tests:
+          - not_null
+          - unique
+      - name: device_id
+        description: "Natural key — device identifier"
+        tests:
+          - not_null
+          - unique
+      - name: is_active
+        description: "Whether the device is currently active"
+        tests:
+          - not_null
+      - name: lifetime_anomaly_rate_pct
+        description: "Percentage of all readings that were anomalous"

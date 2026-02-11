@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: int_sensor_readings_cleaned
+    description: >
+      Silver layer: Cleaned, deduplicated, and enriched sensor readings.
+      Includes anomaly detection flags and device metadata.
+      Materialized incrementally for efficient processing of streaming IoT data.
+    columns:
+      - name: reading_id
+        description: "Primary key — deduplicated reading identifier"
+        tests:
+          - not_null
+          - unique
+      - name: device_id
+        description: "Device that generated the reading"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_devices')
+              field: device_id
+      - name: metric_value
+        description: "Sensor value (null when is_missing_value = true)"
+      - name: is_anomaly
+        description: "True if the reading exceeds configured thresholds"
+        tests:
+          - not_null
+      - name: is_missing_value
+        description: "True if the original metric_value was null"
+        tests:
+          - not_null
+
+  - name: int_device_health
+    description: >
+      Silver layer: Hourly device health metrics per device per metric.
+      Includes statistical aggregations and anomaly rates.
+    columns:
+      - name: device_health_key
+        description: "Surrogate key: device_id + metric_name + reading_hour"
+        tests:
+          - not_null
+          - unique
+      - name: reading_count
+        description: "Number of readings in the hour"
+        tests:
+          - not_null
+      - name: anomaly_rate_pct
+        description: "Percentage of anomalous readings in the hour"
+
+  - name: int_alerts_enriched
+    description: >
+      Silver layer: Alerts enriched with device context and resolution metrics.
+    columns:
+      - name: alert_id
+        description: "Primary key — unique alert identifier"
+        tests:
+          - not_null
+          - unique
+      - name: device_id
+        description: "Device that triggered the alert"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_devices')
+              field: device_id
+      - name: severity
+        description: "Alert severity level"
+        tests:
+          - accepted_values:
+              values: ['info', 'warning', 'critical']
+      - name: severity_score
+        description: "Numeric severity score for prioritization (1-3)"
+        tests:
+          - not_null
